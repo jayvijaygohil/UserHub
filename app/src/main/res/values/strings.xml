@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">UserHub - User Repositories on GitHub</string>
+    <string name="api_error_repos">Error Loading Repositories</string>
+</resources>
