@@ -4,6 +4,8 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,9 +26,12 @@ import butterknife.Unbinder;
 public class RepoListFragment extends Fragment {
 
 
-    @BindView(R.id.repo_list_rv) RecyclerView repoListView;
-    @BindView(R.id.error_message_tv) TextView errorMessageTextView;
-    @BindView(R.id.repo_list_loading_pb) ProgressBar repoListLoadingView;
+    @BindView(R.id.repo_list_rv)
+    RecyclerView repoListView;
+    @BindView(R.id.error_message_tv)
+    TextView errorMessageTextView;
+    @BindView(R.id.repo_list_loading_pb)
+    ProgressBar repoListLoadingView;
 
     private Unbinder unbinder;
     private RepoListFragmentViewModel viewModel;
@@ -42,6 +47,12 @@ public class RepoListFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         viewModel = ViewModelProviders.of(this).get(RepoListFragmentViewModel.class);
+
+        repoListView
+                .addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        repoListView.setAdapter(new RepoListAdapter(viewModel, this));
+        repoListView.setLayoutManager(new LinearLayoutManager(getContext()));
+
         observeViewModel();
     }
 
