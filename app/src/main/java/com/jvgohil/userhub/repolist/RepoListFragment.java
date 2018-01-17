@@ -1,5 +1,6 @@
 package com.jvgohil.userhub.repolist;
 
+import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,6 +15,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.jvgohil.userhub.R;
+import com.jvgohil.userhub.model.Repo;
+import com.jvgohil.userhub.repodetail.RepoDetailFragment;
+
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,7 +28,7 @@ import butterknife.Unbinder;
  * Created by Jayvijay on 2018-01-13.
  */
 
-public class RepoListFragment extends Fragment {
+public class RepoListFragment extends Fragment implements RepoSelectedListener {
 
 
     @BindView(R.id.repo_list_rv)
@@ -56,12 +61,23 @@ public class RepoListFragment extends Fragment {
         // Setup RecyclerView
         repoListView
                 .addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-        repoListView.setAdapter(new RepoListAdapter(viewModel, this));
+        repoListView.setAdapter(new RepoListAdapter(viewModel, this, this));
         repoListView.setLayoutManager(new LinearLayoutManager(getContext()));
         repoListView.setHasFixedSize(true);
 
         // Set Observables
         observeViewModel();
+    }
+
+    @Override
+    public void onRepoSelected(Repo repo) {
+        RepoSelectedViewModel repoSelectedViewModel = ViewModelProviders.of(getActivity()).get(RepoSelectedViewModel.class);
+        repoSelectedViewModel.setSelectedRepo(repo);
+
+        getActivity().getSupportFragmentManager().beginTransaction()
+                     .replace(R.id.fragment_container, new RepoDetailFragment())
+                     .addToBackStack(null)
+                     .commit();
     }
 
     private void observeViewModel() {
