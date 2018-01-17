@@ -1,4 +1,4 @@
-package com.jvgohil.userhub.home;
+package com.jvgohil.userhub.repolist;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
@@ -39,29 +39,41 @@ public class RepoListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        // Inflate layout into the fragment
         View view = inflater.inflate(R.layout.fragment_repo_list, container, false);
+
+        // Store Unbinder for releasing it from the memory when fragment is destroyed
         unbinder = ButterKnife.bind(this, view);
         return view;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+
+        // Initialize a RepoListFragmentViewModel object
         viewModel = ViewModelProviders.of(this).get(RepoListFragmentViewModel.class);
 
+        // Setup RecyclerView
         repoListView
                 .addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         repoListView.setAdapter(new RepoListAdapter(viewModel, this));
         repoListView.setLayoutManager(new LinearLayoutManager(getContext()));
+        repoListView.setHasFixedSize(true);
 
+        // Set Observables
         observeViewModel();
     }
 
     private void observeViewModel() {
+
+        // Update UI in case of: new data has been fetched
         viewModel.getRepos().observe(this, repos -> {
             if (repos != null) {
                 repoListView.setVisibility(View.VISIBLE);
             }
         });
+
+        // Update UI in case of: an error while fetching new data
         viewModel.getError().observe(this, isError -> {
             //noinspection ConstantConditions
             if (isError) {
@@ -73,13 +85,14 @@ public class RepoListFragment extends Fragment {
                 errorMessageTextView.setText(null);
             }
         });
+
+        // Update UI in case of: new data is in the process of being fetched
         viewModel.getLoading().observe(this, isLoading -> {
             //noinspection ConstantConditions
             repoListLoadingView.setVisibility(isLoading ? View.VISIBLE : View.GONE);
             if (isLoading) {
                 repoListView.setVisibility(View.GONE);
                 errorMessageTextView.setVisibility(View.GONE);
-                repoListLoadingView.setVisibility(View.VISIBLE);
             }
         });
     }

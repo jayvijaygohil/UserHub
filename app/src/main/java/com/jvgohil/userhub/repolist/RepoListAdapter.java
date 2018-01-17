@@ -1,4 +1,4 @@
-package com.jvgohil.userhub.home;
+package com.jvgohil.userhub.repolist;
 
 import android.arch.lifecycle.LifecycleOwner;
 import android.support.v7.widget.RecyclerView;
@@ -24,6 +24,7 @@ public class RepoListAdapter extends RecyclerView.Adapter<RepoListAdapter.RepoVi
 
     private final List<Repo> data = new ArrayList<>();
 
+    // Provide a suitable constructor
     public RepoListAdapter(RepoListFragmentViewModel viewModel, LifecycleOwner lifecycleOwner) {
         viewModel.getRepos().observe(lifecycleOwner, repos -> {
             data.clear();
@@ -32,30 +33,40 @@ public class RepoListAdapter extends RecyclerView.Adapter<RepoListAdapter.RepoVi
                 notifyDataSetChanged(); //TODO: Implement DiffUtils after learning AutoValue
             }
         });
+
+        // Tell RecyclerView not to generate unique IDs for each view
+        // Used when the data set can be represented with a unique identifier
         setHasStableIds(true);
     }
 
+    // Create new views (invoked by the layout manager)
     @Override
     public RepoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_repo_list, parent, false);
+        final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_repo_list, parent, false);
         return new RepoViewHolder(view);
     }
 
+    // Replace the contents of a view with real data (invoked by the layout manager)
     @Override
     public void onBindViewHolder(RepoViewHolder holder, int position) {
         holder.bind(data.get(position));
     }
 
+    // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
         return data.size();
     }
 
+
+    // Return the stable ID for the item at position
+    // Needed when setHasStableIds is set to true
     @Override
     public long getItemId(int position) {
         return data.get(position).id;
     }
 
+    // Provide a reference to the views for each data item
     static final class RepoViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.tv_repo_name) TextView repoName;
@@ -68,6 +79,7 @@ public class RepoListAdapter extends RecyclerView.Adapter<RepoListAdapter.RepoVi
             ButterKnife.bind(this, itemView);
         }
 
+        // Method to populate views with its custom data
         void bind(Repo repo) {
             repoName.setText(repo.name);
             repoDescription.setText(repo.description);

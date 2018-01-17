@@ -1,4 +1,4 @@
-package com.jvgohil.userhub.home;
+package com.jvgohil.userhub.repolist;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,8 +11,11 @@ public class RepoListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_repo_list);
+
+        // Check if the activity is being loaded for the first time into the memory
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().add(R.id.RepoListFragmentContainer, new RepoListFragment())
+            // Attach fragment to the activity
+            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new RepoListFragment())
                                        .commit();
         }
     }

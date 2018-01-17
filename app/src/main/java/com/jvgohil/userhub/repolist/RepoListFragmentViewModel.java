@@ -1,4 +1,4 @@
-package com.jvgohil.userhub.home;
+package com.jvgohil.userhub.repolist;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
@@ -25,22 +25,30 @@ public class RepoListFragmentViewModel extends ViewModel {
 
     private Call<List<Repo>> repoCall;
 
+    // Constructor
     public RepoListFragmentViewModel() {
         fetchRepos();
     }
 
+    // Getters have a return type of LiveData<T> instead of MutableLiveData<T> to prevent instances
+    // from setting class variable values
+
+    // Getter
     public LiveData<List<Repo>> getRepos() {
         return repos;
     }
 
+    // Getter
     public LiveData<Boolean> getError() {
         return repoLoadError;
     }
 
+    // Getter
     public LiveData<Boolean> getLoading() {
         return loading;
     }
 
+    // fetch data using Retrofit / Update Instance Variables
     private void fetchRepos() {
         loading.setValue(true);
         repoCall = RepoApi.getInstance().getRepositories();
@@ -63,6 +71,7 @@ public class RepoListFragmentViewModel extends ViewModel {
         });
     }
 
+    // Cancel any ongoing requests and set repoCall to null when Class instance is destroyed
     @Override
     protected void onCleared() {
         if (repoCall != null) {
