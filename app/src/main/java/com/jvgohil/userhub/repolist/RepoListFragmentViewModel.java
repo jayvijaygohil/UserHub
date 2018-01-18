@@ -31,7 +31,7 @@ public class RepoListFragmentViewModel extends ViewModel {
     }
 
     // Getters have a return type of LiveData<T> instead of MutableLiveData<T> to prevent instances
-    // from setting class variable values
+    // from setting class variable values unless a setter method is defined manually
 
     // Getter
     public LiveData<List<Repo>> getRepos() {

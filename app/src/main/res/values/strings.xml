@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">UserHub - User Repositories on GitHub</string>
+    <string name="app_name">UserHub</string>
     <string name="api_error_repos">Error Loading Repositories</string>
     <string name="forks_title">Forks</string>
     <string name="stars_title">Stars</string>

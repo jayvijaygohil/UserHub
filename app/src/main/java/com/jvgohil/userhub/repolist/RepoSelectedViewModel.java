@@ -13,10 +13,12 @@ import com.jvgohil.userhub.model.Repo;
 public class RepoSelectedViewModel extends ViewModel {
     private final MutableLiveData<Repo> selectedRepo = new MutableLiveData<>();
 
+    // Get the selected repository's object
     public LiveData<Repo> getSelectedRepo() {
         return selectedRepo;
     }
 
+    // Set selected repository's object
     void setSelectedRepo (Repo repo) {
         selectedRepo.setValue(repo);
     }
