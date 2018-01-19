@@ -25,6 +25,8 @@ public class RepoDetailFragment extends Fragment {
 
     @BindView(R.id.repo_name_tv)
     TextView repoNameTextView;
+    @BindView(R.id.repo_description_tv)
+    TextView repoDescriptionTextView;
     @BindView(R.id.forks_tv)
     TextView forksTextView;
     @BindView(R.id.starts_tv)
@@ -72,6 +74,7 @@ public class RepoDetailFragment extends Fragment {
         repoSelectedViewModel.getSelectedRepo().observe(this, repo -> {
             if (repo != null) {
                 repoNameTextView.setText(repo.name);
+                repoDescriptionTextView.setText(repo.description);
                 forksTextView.setText(String.valueOf(repo.forks));
                 starsTextView.setText(String.valueOf(repo.stars));
             }
