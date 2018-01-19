@@ -77,6 +77,7 @@ public class RepoListFragment extends Fragment implements RepoSelectedListener {
 
         // Load detail fragment when a repo is selected
         getActivity().getSupportFragmentManager().beginTransaction()
+                     .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
                      .replace(R.id.fragment_container, new RepoDetailFragment())
                      .addToBackStack(null)
                      .commit();
