@@ -39,7 +39,7 @@ public class RepoSelectedViewModel extends ViewModel {
     }
 
     public void restoreFromBundle(Bundle savedInstanceState) {
-        if (selectedRepo.getValue() != null) {
+        if (selectedRepo.getValue() == null) {
             // We only care about restoring if we don't have a selected Repo already set
             if (savedInstanceState != null && savedInstanceState.containsKey("repo_details")) {
                 loadRepo(savedInstanceState.getStringArray("repo_details"));

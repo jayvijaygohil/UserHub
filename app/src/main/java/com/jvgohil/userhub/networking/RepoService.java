@@ -16,6 +16,6 @@ public interface RepoService {
     @GET("orgs/Google/repos")
     Call<List<Repo>> getRepositories();
 
-    @GET("orgs/{owner}/{name}")
+    @GET("repos/{owner}/{name}")
     Call<Repo> getRepo(@Path("owner") String repoOwner, @Path("name") String repoName);
 }
