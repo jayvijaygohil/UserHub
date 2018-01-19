@@ -1,6 +1,7 @@
 package com.jvgohil.userhub.repolist;
 
 import android.arch.lifecycle.LifecycleOwner;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,10 +32,11 @@ public class RepoListAdapter extends RecyclerView.Adapter<RepoListAdapter.RepoVi
         this.repoSelectedListener = repoSelectedListener;
 
         viewModel.getRepos().observe(lifecycleOwner, repos -> {
-            data.clear();
             if (repos != null) {
+                final DiffUtil.DiffResult result = DiffUtil.calculateDiff(new RepoItemDiffCallbacks(data, repos), false);
+                data.clear();
                 data.addAll(repos);
-                notifyDataSetChanged(); //TODO: Implement DiffUtils after learning AutoValue
+                result.dispatchUpdatesTo(RepoListAdapter.this);
             }
         });
 
