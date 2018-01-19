@@ -71,9 +71,11 @@ public class RepoListFragment extends Fragment implements RepoSelectedListener {
 
     @Override
     public void onRepoSelected(Repo repo) {
+        // Get activity's  RepoSelectedViewModel to save the selected repo
         RepoSelectedViewModel repoSelectedViewModel = ViewModelProviders.of(getActivity()).get(RepoSelectedViewModel.class);
         repoSelectedViewModel.setSelectedRepo(repo);
 
+        // Load detail fragment when a repo is selected
         getActivity().getSupportFragmentManager().beginTransaction()
                      .replace(R.id.fragment_container, new RepoDetailFragment())
                      .addToBackStack(null)

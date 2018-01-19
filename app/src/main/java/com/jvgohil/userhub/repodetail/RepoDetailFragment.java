@@ -48,12 +48,12 @@ public class RepoDetailFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 
         // Create instance of RepoSelectedViewModel
-
         // Note: As communication is between different fragments in the same activity,
         // activity context is passed and not fragment context
         repoSelectedViewModel = ViewModelProviders.of(getActivity())
                                                   .get(RepoSelectedViewModel.class);
 
+        // For restoring fragment state in case of a process death
         repoSelectedViewModel.restoreFromBundle(savedInstanceState);
 
         // Update UI
@@ -63,6 +63,7 @@ public class RepoDetailFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        // Send bundle to ViewModel
         repoSelectedViewModel.saveToBundle(outState);
     }
 

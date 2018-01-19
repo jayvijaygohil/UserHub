@@ -32,12 +32,15 @@ public class RepoSelectedViewModel extends ViewModel {
 
     private Call<Repo> repoCall;
 
+    // Save to bundle data necessary for restoring selectedRepo in case of a process death
     public void saveToBundle(Bundle outState) {
         if (selectedRepo.getValue() != null) {
             outState.putStringArray("repo_details", new String[]{selectedRepo.getValue().owner.login, selectedRepo.getValue().name});
         }
     }
 
+
+    // Restore selectedRepo from savedInstanceState to restore detail fragment to its state before process death
     public void restoreFromBundle(Bundle savedInstanceState) {
         if (selectedRepo.getValue() == null) {
             // We only care about restoring if we don't have a selected Repo already set
@@ -47,6 +50,7 @@ public class RepoSelectedViewModel extends ViewModel {
         }
     }
 
+    // Load selectedRepo data in situations where fragment is recreated
     private void loadRepo(String[] repoDetails) {
         repoCall = RepoApi.getInstance().getRepo(repoDetails[0], repoDetails[1]);
         repoCall.enqueue(new Callback<Repo>() {
@@ -64,6 +68,7 @@ public class RepoSelectedViewModel extends ViewModel {
         });
     }
 
+    // Cancel any ongoing requests and set repoCall to null when Class instance is destroyed
     @Override
     protected void onCleared() {
         if (repoCall != null) {

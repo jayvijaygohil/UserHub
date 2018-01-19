@@ -94,7 +94,7 @@ public class RepoListAdapter extends RecyclerView.Adapter<RepoListAdapter.RepoVi
             });
         }
 
-        // Method to populate views with its custom data
+        // Method to populate views with its custom data. To be called in onBindViewHolder
         void bind(Repo repo) {
             this.repo = repo;
             repoName.setText(repo.name);
