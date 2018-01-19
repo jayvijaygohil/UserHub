@@ -1,5 +1,6 @@
 package com.jvgohil.userhub.repodetail;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.jvgohil.userhub.R;
+import com.jvgohil.userhub.repolist.RepoSelectedViewModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,6 +31,7 @@ public class RepoDetailFragment extends Fragment {
     TextView starsTextView;
 
     private Unbinder unbinder;
+    private RepoSelectedViewModel repoSelectedViewModel;
 
     @Nullable
     @Override
@@ -43,11 +46,35 @@ public class RepoDetailFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+
+        // Create instance of RepoSelectedViewModel
+
+        // Note: As communication is between different fragments in the same activity,
+        // activity context is passed and not fragment context
+        repoSelectedViewModel = ViewModelProviders.of(getActivity())
+                                                  .get(RepoSelectedViewModel.class);
+
+        repoSelectedViewModel.restoreFromBundle(savedInstanceState);
+
+        // Update UI
         displayRepo();
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        repoSelectedViewModel.saveToBundle(outState);
+    }
+
     private void displayRepo() {
-        
+        // Update UI in case of: data change in repoSelectedViewModel instance
+        repoSelectedViewModel.getSelectedRepo().observe(this, repo -> {
+            if (repo != null) {
+                repoNameTextView.setText(repo.name);
+                forksTextView.setText(String.valueOf(repo.forks));
+                starsTextView.setText(String.valueOf(repo.stars));
+            }
+        });
     }
 
     @Override

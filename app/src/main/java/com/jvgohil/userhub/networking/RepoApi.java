@@ -15,6 +15,7 @@ public class RepoApi {
     private static RepoService repoService;
 
     private RepoApi() {
+
     }
 
     private static void initializeRetrofit() {

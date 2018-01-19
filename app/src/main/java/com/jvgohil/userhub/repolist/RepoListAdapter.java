@@ -27,6 +27,7 @@ public class RepoListAdapter extends RecyclerView.Adapter<RepoListAdapter.RepoVi
 
     // Provide a suitable constructor
     public RepoListAdapter(RepoListFragmentViewModel viewModel, LifecycleOwner lifecycleOwner, RepoSelectedListener repoSelectedListener) {
+
         this.repoSelectedListener = repoSelectedListener;
 
         viewModel.getRepos().observe(lifecycleOwner, repos -> {
@@ -62,7 +63,7 @@ public class RepoListAdapter extends RecyclerView.Adapter<RepoListAdapter.RepoVi
     }
 
 
-    // Return the stable ID for the item at position
+    // Return the stable ID for the item
     // Needed when setHasStableIds is set to true
     @Override
     public long getItemId(int position) {
